@@ -1,7 +1,5 @@
-# .net-5-api-framework
+# TUTORIAL NET CORE API
 .Net 5 API Framework
-
-TAM PPOS
 
 Framework AMN menggunakan .NET 5
 
