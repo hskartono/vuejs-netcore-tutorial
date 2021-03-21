@@ -34,6 +34,11 @@ namespace Tutorial.Infrastructure
 		// do not remove region marker. this marker is used by code generator
 		#region Application Variables
 
+			public DbSet<Part> Parts { get; set; }
+			public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+			public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+			public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
+			public DbSet<PurchaseRequestDetail> PurchaseRequestDetails { get; set; }
 		#endregion
 
 		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -98,6 +103,11 @@ namespace Tutorial.Infrastructure
 			// do not remove region marker. this marker is used by code generator
 			#region Application Config
 
+			modelBuilder.ApplyConfiguration(new PartConfiguration());
+			modelBuilder.ApplyConfiguration(new PurchaseOrderConfiguration());
+			modelBuilder.ApplyConfiguration(new PurchaseOrderDetailConfiguration());
+			modelBuilder.ApplyConfiguration(new PurchaseRequestConfiguration());
+			modelBuilder.ApplyConfiguration(new PurchaseRequestDetailConfiguration());
 			#endregion
 		}
 	}

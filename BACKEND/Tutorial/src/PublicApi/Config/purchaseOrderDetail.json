@@ -1,0 +1,52 @@
+{
+  "assembly": "Tutorial.ApplicationCore.Entities.PurchaseOrderDetail, ApplicationCore",
+  "worksheet": "PurchaseOrderDetail",
+  "columnsMap": [
+  {
+    "property": "Id",
+    "colIndex": 1,
+    "type": "int",
+    "title": "ID"
+  },
+  {
+    "property": "_RefForeignKey",
+    "FK": true,
+    "colIndex": 2,
+    "type": "string",
+    "title": "FK"
+  },
+  {
+    "property": "PurchaseOrderId",
+    "colIndex": 3,
+    "type": "object",
+    "assembly": "Tutorial.ApplicationCore.Entities.PurchaseOrder, ApplicationCore",
+    "title": "PurchaseOrder"
+  },
+  {
+    "property": "PartId",
+    "colIndex": 4,
+    "type": "object",
+    "assembly": "Tutorial.ApplicationCore.Entities.Part, ApplicationCore",
+    "title": "Part"
+  },
+  {
+    "property": "PartPrice",
+    "colIndex": 5,
+    "type": "double",
+    "title": "Part Price"
+  },
+  {
+    "property": "Qty",
+    "colIndex": 6,
+    "type": "int",
+    "title": "Qty"
+  },
+  {
+    "property": "TotalPrice",
+    "colIndex": 7,
+    "type": "double",
+    "title": "Total Price"
+  }
+
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "assembly": "Tutorial.ApplicationCore.Entities.Part, ApplicationCore",
+  "worksheet": "Part",
+  "columnsMap": [
+  {
+    "property": "Id",
+    "colIndex": 1,
+    "type": "string",
+    "title": "ID"
+  },
+  {
+    "property": "_RefPrimaryKey",
+    "PK": true,
+    "colIndex": 2,
+    "type": "string",
+    "title": "PK"
+  },
+  {
+    "property": "PartName",
+    "colIndex": 3,
+    "type": "string",
+    "title": "Part Name"
+  },
+  {
+    "property": "Description",
+    "colIndex": 4,
+    "type": "string",
+    "title": "Description"
+  }
+
+  ]
+}

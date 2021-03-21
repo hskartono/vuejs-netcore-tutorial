@@ -34,6 +34,11 @@ namespace Tutorial.ApplicationCore
 		// do not remove region marker. this marker is used by code generator
 		#region Application
 
+			IPartRepository PartRepository { get; }
+			IPurchaseOrderRepository PurchaseOrderRepository { get; }
+			IPurchaseOrderDetailRepository PurchaseOrderDetailRepository { get; }
+			IPurchaseRequestRepository PurchaseRequestRepository { get; }
+			IPurchaseRequestDetailRepository PurchaseRequestDetailRepository { get; }
 		#endregion
 	}
 }

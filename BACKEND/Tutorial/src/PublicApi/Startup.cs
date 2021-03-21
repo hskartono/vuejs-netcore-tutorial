@@ -105,6 +105,11 @@ namespace PublicApi
 			// do not remove region marker. this marker is used by code generator
 			#region Application Service Configuration
 
+			services.AddTransient<IPartService, PartService>();
+			services.AddTransient<IPurchaseOrderService, PurchaseOrderService>();
+			services.AddTransient<IPurchaseOrderDetailService, PurchaseOrderDetailService>();
+			services.AddTransient<IPurchaseRequestService, PurchaseRequestService>();
+			services.AddTransient<IPurchaseRequestDetailService, PurchaseRequestDetailService>();
 			#endregion
 
 			#region Hangfire

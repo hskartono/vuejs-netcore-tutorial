@@ -98,4 +98,16 @@
     </None>
 </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Storage\Templates\part.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
+
+  <ItemGroup>
+    <None Update="Storage\Templates\purchase_order.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
+
 </Project>

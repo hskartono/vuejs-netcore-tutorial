@@ -12,6 +12,11 @@ using Tutorial.PublicApi.Features.SchedulerConfigurations;
 using Tutorial.PublicApi.Features.SchedulerCronIntervals;
 using Tutorial.PublicApi.Features.UserInfos;
 using Tutorial.PublicApi.Features.UserRoles;
+using Tutorial.PublicApi.Features.Parts;
+using Tutorial.PublicApi.Features.PurchaseOrders;
+using Tutorial.PublicApi.Features.PurchaseRequests;
+using Tutorial.PublicApi.Features.ModuleInfos;
+
 namespace Tutorial.PublicApi
 {
 	public class MappingProfile : Profile
@@ -71,8 +76,18 @@ namespace Tutorial.PublicApi
 				)
 				.ReverseMap();
 
+			CreateMap<ModuleInfo, ModuleInfoDTO>();
+
 			// do not remove region marker. this marker is used by code generator
 			#region Application Entity
+
+			CreateMap<Part, PartDTO>().ReverseMap();
+
+			CreateMap<PurchaseOrder, PurchaseOrderDTO>().ReverseMap();
+			CreateMap<PurchaseOrderDetail, PurchaseOrderDetailDTO>().ForMember(dto => dto.PartPartName, opt => opt.MapFrom(src => src.Part.PartName)).ReverseMap();
+
+			CreateMap<PurchaseRequest, PurchaseRequestDTO>().ReverseMap();
+			CreateMap<PurchaseRequestDetail, PurchaseRequestDetailDTO>().ForMember(dto => dto.PartPartName, opt => opt.MapFrom(src => src.Part.PartName)).ReverseMap();
 
 			#endregion
 		}

@@ -1,0 +1,43 @@
+{
+  "assembly": "Tutorial.ApplicationCore.Entities.PurchaseOrder, ApplicationCore",
+  "worksheet": "PurchaseOrder",
+  "columnsMap": [
+  {
+    "property": "Id",
+    "colIndex": 1,
+    "type": "int",
+    "title": "ID"
+  },
+  {
+    "property": "_RefPrimaryKey",
+    "PK": true,
+    "colIndex": 2,
+    "type": "string",
+    "title": "PK"
+  },
+  {
+    "property": "PoNumber",
+    "colIndex": 3,
+    "type": "string",
+    "title": "PO Number"
+  },
+  {
+    "property": "PoDate",
+    "colIndex": 4,
+    "type": "datetime",
+    "title": "PO Date"
+  },
+  {
+    "property": "Remarks",
+    "colIndex": 5,
+    "type": "string",
+    "title": "Remarks"
+  }
+,
+  {
+    "property": "PurchaseOrderDetails",
+    "type": "collection",
+    "mapFile": "purchaseOrderDetail.json",
+  }
+  ]
+}

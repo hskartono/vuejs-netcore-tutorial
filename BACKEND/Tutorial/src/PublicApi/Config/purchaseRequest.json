@@ -1,0 +1,43 @@
+{
+  "assembly": "Tutorial.ApplicationCore.Entities.PurchaseRequest, ApplicationCore",
+  "worksheet": "PurchaseRequest",
+  "columnsMap": [
+  {
+    "property": "Id",
+    "colIndex": 1,
+    "type": "int",
+    "title": "ID"
+  },
+  {
+    "property": "_RefPrimaryKey",
+    "PK": true,
+    "colIndex": 2,
+    "type": "string",
+    "title": "PK"
+  },
+  {
+    "property": "PrDate",
+    "colIndex": 3,
+    "type": "datetime",
+    "title": "PR Date"
+  },
+  {
+    "property": "PrNo",
+    "colIndex": 4,
+    "type": "string",
+    "title": "PR Number"
+  },
+  {
+    "property": "Remarks",
+    "colIndex": 5,
+    "type": "string",
+    "title": "Remarks"
+  }
+,
+  {
+    "property": "PurchaseRequestDetails",
+    "type": "collection",
+    "mapFile": "purchaseRequestDetail.json",
+  }
+  ]
+}

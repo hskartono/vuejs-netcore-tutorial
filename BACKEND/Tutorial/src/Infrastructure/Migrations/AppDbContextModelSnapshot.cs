@@ -692,6 +692,326 @@ namespace Tutorial.Infrastructure.Migrations
                     b.ToTable("ModuleInfos");
                 });
 
+            modelBuilder.Entity("Tutorial.ApplicationCore.Entities.Part", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("DraftFromUpload")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("IsDraftRecord")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MainRecordId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PartName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RecordActionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RecordEditedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UploadValidationMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UploadValidationStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Parts");
+                });
+
+            modelBuilder.Entity("Tutorial.ApplicationCore.Entities.PurchaseOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("DraftFromUpload")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("IsDraftRecord")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MainRecordId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("PoDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PoNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RecordActionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RecordEditedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UploadValidationMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UploadValidationStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PurchaseOrders");
+                });
+
+            modelBuilder.Entity("Tutorial.ApplicationCore.Entities.PurchaseOrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("DraftFromUpload")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("IsDraftRecord")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MainRecordId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PartId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double?>("PartPrice")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("PurchaseOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Qty")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RecordActionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RecordEditedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("TotalPrice")
+                        .HasColumnType("float");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UploadValidationMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UploadValidationStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartId");
+
+                    b.HasIndex("PurchaseOrderId");
+
+                    b.ToTable("PurchaseOrderDetails");
+                });
+
+            modelBuilder.Entity("Tutorial.ApplicationCore.Entities.PurchaseRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("DraftFromUpload")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("IsDraftRecord")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MainRecordId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("PrDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PrNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RecordActionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RecordEditedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UploadValidationMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UploadValidationStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PurchaseRequests");
+                });
+
+            modelBuilder.Entity("Tutorial.ApplicationCore.Entities.PurchaseRequestDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("DraftFromUpload")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("IsDraftRecord")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MainRecordId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PartId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("PurchaseRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Qty")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RecordActionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RecordEditedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UploadValidationMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UploadValidationStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartId");
+
+                    b.HasIndex("PurchaseRequestId");
+
+                    b.ToTable("PurchaseRequestDetails");
+                });
+
             modelBuilder.Entity("Tutorial.ApplicationCore.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -1209,6 +1529,36 @@ namespace Tutorial.Infrastructure.Migrations
                     b.Navigation("Lookup");
                 });
 
+            modelBuilder.Entity("Tutorial.ApplicationCore.Entities.PurchaseOrderDetail", b =>
+                {
+                    b.HasOne("Tutorial.ApplicationCore.Entities.Part", "Part")
+                        .WithMany()
+                        .HasForeignKey("PartId");
+
+                    b.HasOne("Tutorial.ApplicationCore.Entities.PurchaseOrder", "PurchaseOrder")
+                        .WithMany("PurchaseOrderDetails")
+                        .HasForeignKey("PurchaseOrderId");
+
+                    b.Navigation("Part");
+
+                    b.Navigation("PurchaseOrder");
+                });
+
+            modelBuilder.Entity("Tutorial.ApplicationCore.Entities.PurchaseRequestDetail", b =>
+                {
+                    b.HasOne("Tutorial.ApplicationCore.Entities.Part", "Part")
+                        .WithMany()
+                        .HasForeignKey("PartId");
+
+                    b.HasOne("Tutorial.ApplicationCore.Entities.PurchaseRequest", "PurchaseRequest")
+                        .WithMany("PurchaseRequestDetails")
+                        .HasForeignKey("PurchaseRequestId");
+
+                    b.Navigation("Part");
+
+                    b.Navigation("PurchaseRequest");
+                });
+
             modelBuilder.Entity("Tutorial.ApplicationCore.Entities.RoleDetail", b =>
                 {
                     b.HasOne("Tutorial.ApplicationCore.Entities.FunctionInfo", "FunctionInfo")
@@ -1262,6 +1612,16 @@ namespace Tutorial.Infrastructure.Migrations
             modelBuilder.Entity("Tutorial.ApplicationCore.Entities.Lookup", b =>
                 {
                     b.Navigation("LookupDetails");
+                });
+
+            modelBuilder.Entity("Tutorial.ApplicationCore.Entities.PurchaseOrder", b =>
+                {
+                    b.Navigation("PurchaseOrderDetails");
+                });
+
+            modelBuilder.Entity("Tutorial.ApplicationCore.Entities.PurchaseRequest", b =>
+                {
+                    b.Navigation("PurchaseRequestDetails");
                 });
 
             modelBuilder.Entity("Tutorial.ApplicationCore.Entities.Role", b =>

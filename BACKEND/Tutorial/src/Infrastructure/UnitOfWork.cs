@@ -36,6 +36,11 @@ namespace Tutorial.Infrastructure
 		// do not remove region marker. this marker is used by code generator
 		#region Application private variable
 
+			private IPartRepository partRepository;
+			private IPurchaseOrderRepository purchaseOrderRepository;
+			private IPurchaseOrderDetailRepository purchaseOrderDetailRepository;
+			private IPurchaseRequestRepository purchaseRequestRepository;
+			private IPurchaseRequestDetailRepository purchaseRequestDetailRepository;
 		#endregion
 
 		#region Framework properties
@@ -94,6 +99,11 @@ namespace Tutorial.Infrastructure
 		// do not remove region marker. this marker is used by code generator
 		#region Application private properties
 
+			public IPartRepository PartRepository => partRepository = partRepository ?? new PartRepository(_context);
+			public IPurchaseOrderRepository PurchaseOrderRepository => purchaseOrderRepository = purchaseOrderRepository ?? new PurchaseOrderRepository(_context);
+			public IPurchaseOrderDetailRepository PurchaseOrderDetailRepository => purchaseOrderDetailRepository = purchaseOrderDetailRepository ?? new PurchaseOrderDetailRepository(_context);
+			public IPurchaseRequestRepository PurchaseRequestRepository => purchaseRequestRepository = purchaseRequestRepository ?? new PurchaseRequestRepository(_context);
+			public IPurchaseRequestDetailRepository PurchaseRequestDetailRepository => purchaseRequestDetailRepository = purchaseRequestDetailRepository ?? new PurchaseRequestDetailRepository(_context);
 		#endregion
 
 		public UnitOfWork(AppDbContext context)

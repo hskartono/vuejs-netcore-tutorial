@@ -1,1 +1,1 @@
-dotnet ef migrations add GoodReceipt_d954c550_4470_4e1e_982b_d996f5b03eb3 --project src\Infrastructure --startup-project src\PublicApi --output-dir Migrations
+dotnet ef migrations add PurchaseRequest_eddfb954_f6bf_45fe_8581_a113e36eee35 --project src\Infrastructure --startup-project src\PublicApi --output-dir Migrations

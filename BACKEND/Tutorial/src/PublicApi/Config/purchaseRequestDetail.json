@@ -1,0 +1,46 @@
+{
+  "assembly": "Tutorial.ApplicationCore.Entities.PurchaseRequestDetail, ApplicationCore",
+  "worksheet": "PurchaseRequestDetail",
+  "columnsMap": [
+  {
+    "property": "Id",
+    "colIndex": 1,
+    "type": "int",
+    "title": "ID"
+  },
+  {
+    "property": "_RefForeignKey",
+    "FK": true,
+    "colIndex": 2,
+    "type": "string",
+    "title": "FK"
+  },
+  {
+    "property": "PurchaseRequestId",
+    "colIndex": 3,
+    "type": "object",
+    "assembly": "Tutorial.ApplicationCore.Entities.PurchaseRequest, ApplicationCore",
+    "title": "PurchaseRequest"
+  },
+  {
+    "property": "PartId",
+    "colIndex": 4,
+    "type": "object",
+    "assembly": "Tutorial.ApplicationCore.Entities.Part, ApplicationCore",
+    "title": "Part"
+  },
+  {
+    "property": "Qty",
+    "colIndex": 5,
+    "type": "int",
+    "title": "Qty"
+  },
+  {
+    "property": "RequestDate",
+    "colIndex": 6,
+    "type": "datetime",
+    "title": "Request Date"
+  }
+
+  ]
+}
