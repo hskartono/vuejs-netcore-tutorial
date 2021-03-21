@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/PublicApiapi/apis/FrameworkPoC",
+      "type": "apis.azure"
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/pocdevdbserver/databases/PocDev_db",
+      "type": "mssql.azure",
+      "connectionId": "Default",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

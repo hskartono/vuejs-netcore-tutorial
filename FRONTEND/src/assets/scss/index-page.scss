@@ -1,0 +1,61 @@
+@media (max-width: 768px) {
+    .div-actions {
+      width: 110%;
+    }
+    .btn-paging {
+      margin-top: 0.75rem;
+    }
+  }
+  @media (min-width:768px){
+    .th-number {
+      width: 5%;
+    }
+    /deep/.th-actions {
+      width: 20%;
+    }
+  }
+  @media (min-width:1400px){
+    .th-number {
+      width: 5%;
+    }
+    /deep/.th-actions {
+      width: 17%;
+    }
+  }
+  .btn.filter {
+    text-align: left;
+  }
+  .btn.filter.not-collapsed .chevron-down {
+      display: inline;
+  }
+  
+  .btn.filter.not-collapsed .chevron-right {
+      display: none;
+  }
+  
+  .btn.filter.not-collapsed {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .menu-accordion.show .card {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+  }
+  .btn.filter.collapsed .chevron-right {
+      display: inline;
+  }
+  
+  .btn.filter.collapsed .chevron-down {
+      display: none;
+  }
+  
+  .table .thead-light th {
+      background-color: #f8f9fa !important;
+  }
+
+  @media (max-width: 767.98px) {
+    /deep/td.th-actions > div{
+        width: calc(100%) !important;
+        padding: 0 0 0 calc(9rem / 2) !important;
+    }
+  }
