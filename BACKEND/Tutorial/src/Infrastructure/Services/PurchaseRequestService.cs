@@ -130,7 +130,7 @@ namespace Tutorial.Infrastructure.Services
 
 		#region appgen: get list
 		public async Task<IReadOnlyList<PurchaseRequest>> ListAsync(
-			ISpecification<PurchaseRequest> spec, 
+			ISpecification<PurchaseRequest> spec,
 			List<SortingInformation<PurchaseRequest>> sorting,
 			bool withChilds = false,
 			CancellationToken cancellationToken = default)
@@ -141,16 +141,16 @@ namespace Tutorial.Infrastructure.Services
 				var results = new List<PurchaseRequest>(purchaseRequests);
 				var purchaseRequestIds = purchaseRequests.Select(e => e.Id).ToList();
 
-			var purchaseRequestDetailsFilter = new PurchaseRequestDetailFilterSpecification()
-			{
-				PurchaseRequestIds = purchaseRequestIds,
-				ShowDraftList = BaseEntity.DraftStatus.All
-			}.BuildSpecification();
-			var purchaseRequestDetailss = await _unitOfWork.PurchaseRequestDetailRepository.ListAsync(purchaseRequestDetailsFilter, null, cancellationToken);
-			results.ForEach(c => c.AddRangePurchaseRequestDetails(
-				purchaseRequestDetailss
-				.Where(e=>e.PurchaseRequestId == c.Id).ToList()
-				));
+				var purchaseRequestDetailsFilter = new PurchaseRequestDetailFilterSpecification()
+				{
+					PurchaseRequestIds = purchaseRequestIds,
+					ShowDraftList = BaseEntity.DraftStatus.All
+				}.BuildSpecification();
+				var purchaseRequestDetailss = await _unitOfWork.PurchaseRequestDetailRepository.ListAsync(purchaseRequestDetailsFilter, null, cancellationToken);
+				results.ForEach(c => c.AddRangePurchaseRequestDetails(
+					purchaseRequestDetailss
+					.Where(e => e.PurchaseRequestId == c.Id).ToList()
+					));
 
 
 				return results;
@@ -171,14 +171,14 @@ namespace Tutorial.Infrastructure.Services
 			// update header
 			AssignUpdater(entity);
 			await _unitOfWork.PurchaseRequestRepository.ReplaceAsync(entity, entity.Id, cancellationToken);
-			
+
 			var oldEntity = await _unitOfWork.PurchaseRequestRepository.GetByIdAsync(entity.Id, cancellationToken);
 			if (oldEntity == null)
 			{
-			AddError($"Could not load {nameof(entity)} data with id {entity.Id}.");
-			return false;
+				AddError($"Could not load {nameof(entity)} data with id {entity.Id}.");
+				return false;
 			}
-			await SmartUpdatePurchaseRequestDetails(oldEntity, entity); 
+			await SmartUpdatePurchaseRequestDetails(oldEntity, entity);
 
 
 			// update & commit
@@ -438,7 +438,7 @@ namespace Tutorial.Infrastructure.Services
 		#endregion
 
 		#region appgen: generate excel process
-		public async Task<string> GenerateExcel(string excelFilename, int? refId = null, 
+		public async Task<string> GenerateExcel(string excelFilename, int? refId = null,
 			int? id = null, DateTime? prDateFrom = null, DateTime? prDateTo = null, List<string> prNos = null, List<string> remarkss = null,
 			Dictionary<string, int> exact = null,
 			CancellationToken cancellationToken = default)
@@ -452,10 +452,10 @@ namespace Tutorial.Infrastructure.Services
 					filterSpec = new PurchaseRequestFilterSpecification(exact)
 					{
 
-						Id = id, 
-						PrDateFrom = prDateFrom, 
-						PrDateTo = prDateTo, 
-						PrNos = prNos, 
+						Id = id,
+						PrDateFrom = prDateFrom,
+						PrDateTo = prDateTo,
+						PrNos = prNos,
 						Remarkss = remarkss
 					}.BuildSpecification();
 
@@ -537,14 +537,14 @@ namespace Tutorial.Infrastructure.Services
 				item.IsDraftRecord = (int)BaseEntity.DraftStatus.DraftMode;
 				item.RecordActionDate = DateTime.Now;
 				item.RecordEditedBy = _userName;
-			foreach (var subitem in item.PurchaseRequestDetails)
-			{
-				item.isFromUpload = true;
-				item.DraftFromUpload = true;
-				item.IsDraftRecord = (int)BaseEntity.DraftStatus.DraftMode;
-				item.RecordActionDate = DateTime.Now;
-				item.RecordEditedBy = _userName;
-			}
+				foreach (var subitem in item.PurchaseRequestDetails)
+				{
+					item.isFromUpload = true;
+					item.DraftFromUpload = true;
+					item.IsDraftRecord = (int)BaseEntity.DraftStatus.DraftMode;
+					item.RecordActionDate = DateTime.Now;
+					item.RecordEditedBy = _userName;
+				}
 
 			}
 		}
@@ -575,7 +575,7 @@ namespace Tutorial.Infrastructure.Services
 				foreach (var item in draftDatas)
 				{
 					var id = await CommitDraft(item.Id, cancellationToken);
-					if(id <= 0)
+					if (id <= 0)
 					{
 						AddError("Terjadi kesalahan ketika menyimpan data.");
 						return false;
@@ -673,7 +673,7 @@ namespace Tutorial.Infrastructure.Services
 					ws.Cells[row, 5].Value = item.Remarks;
 					ws.Cells[row, 6].Value = item.UploadValidationStatus;
 					ws.Cells[row, 7].Value = item.UploadValidationMessage;
-					foreach(var itemPurchaseRequestDetails in item.PurchaseRequestDetails)
+					foreach (var itemPurchaseRequestDetails in item.PurchaseRequestDetails)
 					{
 						wsPurchaseRequestDetails.Cells[rowPurchaseRequestDetails, 1].Value = itemPurchaseRequestDetails.Id;
 						wsPurchaseRequestDetails.Cells[rowPurchaseRequestDetails, 2].Value = pk;
@@ -730,7 +730,7 @@ namespace Tutorial.Infrastructure.Services
 		{
 
 			var count = await this.CountAsync(new PurchaseRequestFilterSpecification(id), cancellation);
-			if(count <= 0)
+			if (count <= 0)
 			{
 				AddError($"Data Purchase Request dengan id {id} tidak ditemukan.");
 				return null;
@@ -767,7 +767,7 @@ namespace Tutorial.Infrastructure.Services
 			var originalValue = await _unitOfWork.PurchaseRequestRepository.FirstOrDefaultAsync(
 				new PurchaseRequestFilterSpecification(id));
 
-			if(originalValue == null)
+			if (originalValue == null)
 			{
 				AddError($"Data dengan id {id} tidak ditemukan.");
 				return false;
@@ -801,7 +801,7 @@ namespace Tutorial.Infrastructure.Services
 			{
 				destinationRecord = await GetByIdAsync(recoveryRecord.MainRecordId.Value, true, cancellationToken);
 			}
-			
+
 			if (destinationRecord != null)
 			{
 				// recovery mode edit
@@ -821,7 +821,7 @@ namespace Tutorial.Infrastructure.Services
 			int draftStatus = (int)BaseEntity.DraftStatus.MainRecord;
 			if (destinationRecord != null)
 				draftStatus = (int)BaseEntity.DraftStatus.Saved;
-			
+
 			recoveryRecord.IsDraftRecord = draftStatus;
 			recoveryRecord.RecordActionDate = DateTime.Now;
 			recoveryRecord.DraftFromUpload = false;
@@ -840,7 +840,7 @@ namespace Tutorial.Infrastructure.Services
 
 			return (destinationRecord == null) ? recoveryRecord.Id : resultId;
 		}
-		
+
 		private void SmartUpdateRecoveryPurchaseRequestDetails(PurchaseRequest destinationRecord, PurchaseRequest recoveryRecord, CancellationToken cancellationToken)
 		{
 			List<PurchaseRequestDetail> destinationToBeDeleted = new List<PurchaseRequestDetail>();
@@ -877,7 +877,7 @@ namespace Tutorial.Infrastructure.Services
 					if (!hasUpdate)
 					{
 						//AssignCreatorAndCompany(item);
-						destinationRecord.AddPurchaseRequestDetails( item.PartId, item.Qty, item.RequestDate);
+						destinationRecord.AddPurchaseRequestDetails(item.PartId, item.Qty, item.RequestDate);
 
 						item.IsDraftRecord = (int)BaseEntity.DraftStatus.Saved;
 						item.RecordActionDate = DateTime.Now;

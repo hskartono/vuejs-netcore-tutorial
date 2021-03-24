@@ -226,7 +226,7 @@ namespace Tutorial.PublicApi.Features.PurchaseRequests
 		#endregion
 
 		#region appgen: edit draft
-		
+
 		[HttpGet]
 		[Route("edit/{id}")]
 		public async Task<ActionResult> CreateEditDraftAsync(int id, CancellationToken cancellationToken)
@@ -239,7 +239,7 @@ namespace Tutorial.PublicApi.Features.PurchaseRequests
 
 			return Ok(_mapper.Map<PurchaseRequestDTO>(editItem));
 		}
-		
+
 		#endregion
 
 		#region appgen: update patch
@@ -267,7 +267,7 @@ namespace Tutorial.PublicApi.Features.PurchaseRequests
 		#endregion
 
 		#region appgen: commit changes
-		
+
 		[HttpPut]
 		[Route("commit/{id}")]
 		public async Task<ActionResult> CommitDraftAsync(int id, CancellationToken cancellationToken)
@@ -283,7 +283,7 @@ namespace Tutorial.PublicApi.Features.PurchaseRequests
 
 			return CreatedAtAction(nameof(GetIdAsync), new { id = id }, null);
 		}
-		
+
 		#endregion
 
 		#region appgen: discard changes
@@ -304,7 +304,7 @@ namespace Tutorial.PublicApi.Features.PurchaseRequests
 		#endregion
 
 		#region appgen: get draft list
-		
+
 		[HttpGet]
 		[Route("draftlist")]
 		public async Task<IActionResult> DraftListAsync(CancellationToken cancellationToken)
@@ -314,11 +314,11 @@ namespace Tutorial.PublicApi.Features.PurchaseRequests
 			var draftList = await _purchaseRequestService.GetDraftList(cancellationToken);
 			return Ok(draftList);
 		}
-		
+
 		#endregion
 
 		#region appgen: get current editor
-		
+
 		[HttpGet]
 		[Route("currenteditor/{id}")]
 		public async Task<IActionResult> CurrentEditorAsync(int id, CancellationToken cancellationToken)
@@ -328,7 +328,7 @@ namespace Tutorial.PublicApi.Features.PurchaseRequests
 			var currentEditors = await _purchaseRequestService.GetCurrentEditors(id, cancellationToken);
 			return Ok(currentEditors);
 		}
-		
+
 		#endregion
 
 
@@ -388,33 +388,33 @@ namespace Tutorial.PublicApi.Features.PurchaseRequests
 		[HttpPost]
 		[Route("upload")]
 		public async Task<ActionResult<IEnumerable<PurchaseRequestDTO>>> UploadAsync(
-			IFormFile file, 
+			IFormFile file,
 			CancellationToken cancellationToken)
 		{
 			InitUserInfo();
 			if (!AllowUpload) return ValidationProblem();
 			var filePath = System.IO.Path.GetTempFileName();
-			using(var stream = System.IO.File.Create(filePath))
+			using (var stream = System.IO.File.Create(filePath))
 			{
 				await file.CopyToAsync(stream, cancellationToken);
 			}
 
 			var result = await _purchaseRequestService.UploadExcel(filePath, cancellationToken);
-			if(result == null)
+			if (result == null)
 			{
 				AssignToModelState(_purchaseRequestService.Errors);
 				return ValidationProblem();
 			}
-			
+
 			List<PurchaseRequestDTO> resultDto = result.Select(_mapper.Map<PurchaseRequestDTO>).ToList();
-			foreach(var item in resultDto)
+			foreach (var item in resultDto)
 			{
 				if (string.IsNullOrEmpty(item.Id) || item.Id == "0")
 				{
 					var newguid = Guid.NewGuid().ToString();
 					item.Id = newguid;
 				}
-				foreach(var subitem in item.PurchaseRequestDetails)
+				foreach (var subitem in item.PurchaseRequestDetails)
 				{
 					if (string.IsNullOrEmpty(subitem.Id) || subitem.Id == "0")
 					{
@@ -426,7 +426,7 @@ namespace Tutorial.PublicApi.Features.PurchaseRequests
 			}
 
 
-return CreatedAtAction(nameof(GetIdAsync), new { id = result[0].Id }, null);
+			return CreatedAtAction(nameof(GetIdAsync), new { id = result[0].Id }, null);
 		}
 		#endregion
 
@@ -495,19 +495,19 @@ return CreatedAtAction(nameof(GetIdAsync), new { id = result[0].Id }, null);
 			string fileName = Guid.NewGuid().ToString() + ".xlsx";
 			var excelFile = _uriComposer.ComposeDownloadPath(fileName);
 
-			string key = await _purchaseRequestService.GenerateExcelBackgroundProcess(excelFile, 
-				id, prDateFrom, prDateTo, prNo, remarks, 
+			string key = await _purchaseRequestService.GenerateExcelBackgroundProcess(excelFile,
+				id, prDateFrom, prDateTo, prNo, remarks,
 				exact, cancellationToken);
-			Dictionary<string, string> result = new Dictionary<string, string>() { {"id", key} };
+			Dictionary<string, string> result = new Dictionary<string, string>() { { "id", key } };
 			return Ok(result);
-/*
-			string generatedFilename = await _purchaseRequestService.GenerateExcel(excelFile, null,
-				id, prDateFrom, prDateTo, prNo, remarks, 
-				exact, cancellationToken);
-			fileName = "PurchaseRequest.xlsx";
-			byte[] fileBytes = System.IO.File.ReadAllBytes(generatedFilename);
-			return File(fileBytes, "application/xlsx", fileName);
-*/
+			/*
+						string generatedFilename = await _purchaseRequestService.GenerateExcel(excelFile, null,
+							id, prDateFrom, prDateTo, prNo, remarks, 
+							exact, cancellationToken);
+						fileName = "PurchaseRequest.xlsx";
+						byte[] fileBytes = System.IO.File.ReadAllBytes(generatedFilename);
+						return File(fileBytes, "application/xlsx", fileName);
+			*/
 		}
 		#endregion
 
@@ -516,7 +516,7 @@ return CreatedAtAction(nameof(GetIdAsync), new { id = result[0].Id }, null);
 		#region Private Methods
 
 		#region appgen: generate filter
-		private PurchaseRequestFilterSpecification GenerateFilter(Dictionary<string, Dictionary<string, List<string>>> filters, 
+		private PurchaseRequestFilterSpecification GenerateFilter(Dictionary<string, Dictionary<string, List<string>>> filters,
 			Dictionary<string, int> exact,
 			int pageSize = 0, int pageIndex = 0,
 			List<SortingInformation<PurchaseRequest>> sorting = null)
@@ -537,14 +537,14 @@ return CreatedAtAction(nameof(GetIdAsync), new { id = result[0].Id }, null);
 			List<string> prNo = (filterParams.ContainsKey("prNo") ? filterParams["prNo"] : null);
 			List<string> remarks = (filterParams.ContainsKey("remarks") ? filterParams["remarks"] : null);
 
-			
+
 			// RECOVERY FILTER	
 			int? mainRecordId = (filterParams.ContainsKey("mainRecordId") ? int.Parse(filterParams["mainRecordId"][0]) : null);
 			bool mainRecordIsNull = (filterParams.ContainsKey("mainRecordIsNull") ? bool.Parse(filterParams["mainRecordIsNull"][0]) : false);
 			string recordEditedBy = (filterParams.ContainsKey("recordEditedBy") ? filterParams["recordEditedBy"][0] : null);
 			if (filterParams.ContainsKey("draftFromUpload"))
 			{
-				if (filterParams["draftFromUpload"][0] == "1") 
+				if (filterParams["draftFromUpload"][0] == "1")
 					filterParams["draftFromUpload"][0] = "true";
 				else
 					filterParams["draftFromUpload"][0] = "false";
@@ -562,17 +562,17 @@ return CreatedAtAction(nameof(GetIdAsync), new { id = result[0].Id }, null);
 				return new PurchaseRequestFilterSpecification(exact)
 				{
 
-					Id = id, 
-					PrDateFrom = prDateFrom, 
-					PrDateTo = prDateTo, 
-					PrNos = prNo, 
+					Id = id,
+					PrDateFrom = prDateFrom,
+					PrDateTo = prDateTo,
+					PrNos = prNo,
 					Remarkss = remarks,
 
 					MainRecordId = mainRecordId,
 					MainRecordIdIsNull = mainRecordIsNull,
 					RecordEditedBy = recordEditedBy,
 					DraftFromUpload = draftFromUpload,
-					ShowDraftList = (BaseEntity.DraftStatus) draftMode
+					ShowDraftList = (BaseEntity.DraftStatus)draftMode
 				}
 				.BuildSpecification(true, sorting);
 			}
@@ -580,17 +580,17 @@ return CreatedAtAction(nameof(GetIdAsync), new { id = result[0].Id }, null);
 			return new PurchaseRequestFilterSpecification(skip: pageSize * pageIndex, take: pageSize, exact)
 			{
 
-					Id = id, 
-					PrDateFrom = prDateFrom, 
-					PrDateTo = prDateTo, 
-					PrNos = prNo, 
-					Remarkss = remarks,
+				Id = id,
+				PrDateFrom = prDateFrom,
+				PrDateTo = prDateTo,
+				PrNos = prNo,
+				Remarkss = remarks,
 
 				MainRecordId = mainRecordId,
 				MainRecordIdIsNull = mainRecordIsNull,
 				RecordEditedBy = recordEditedBy,
 				DraftFromUpload = draftFromUpload,
-				ShowDraftList = (BaseEntity.DraftStatus) draftMode
+				ShowDraftList = (BaseEntity.DraftStatus)draftMode
 			}
 			.BuildSpecification(true, sorting);
 		}
@@ -602,7 +602,7 @@ return CreatedAtAction(nameof(GetIdAsync), new { id = result[0].Id }, null);
 			if (sorting == null || sorting.Count == 0)
 				return null;
 			var newDict = new Dictionary<string, int>();
-			foreach(var key in sorting.Keys)
+			foreach (var key in sorting.Keys)
 			{
 				if (sorting[key] == true)
 					newDict.Add(key, 1);
@@ -612,7 +612,7 @@ return CreatedAtAction(nameof(GetIdAsync), new { id = result[0].Id }, null);
 
 			return GenerateSortingSpec(newDict);
 		}
-		
+
 		private List<SortingInformation<PurchaseRequest>> GenerateSortingSpec(Dictionary<string, int> sorting)
 		{
 			if (sorting.ContainsKey("pageIndex")) sorting.Remove("pageIndex");

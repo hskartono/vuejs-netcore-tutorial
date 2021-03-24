@@ -9,6 +9,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Data;
+using System.IO;
 
 namespace Tutorial.Infrastructure.Services
 {
@@ -217,6 +219,112 @@ namespace Tutorial.Infrastructure.Services
 		//	if (_warehouses == null || _warehouses.Count <= 0) _warehouses = await GetWarehouseListAsync(_userName);
 		//	return (_warehouses == null || _warehouses.Count <= 0) ? null : _warehouses[0];
 		//}
+
+		#endregion
+
+		#region excel helper
+
+		protected ExcelPackage DataTableToExcel(DataTable dt)
+		{
+			if (dt == null)
+				return null;
+
+			var package = new ExcelPackage();
+			var ws = package.Workbook.Worksheets.Add("Worksheet 1");
+			int row = 1, col = 1;
+			List<string> headerInfo = new List<string>();
+
+			// draw excel header
+			foreach (DataColumn colInfo in dt.Columns)
+			{
+				ws.Cells[row, col].Value = colInfo.ColumnName;
+				headerInfo.Add(colInfo.ColumnName);
+				col++;
+			}
+			ws.Cells[1, 1, 1, col].Style.Font.Bold = true;
+
+			// draw excel content
+			row = 2;
+			foreach (DataRow rowInfo in dt.Rows)
+			{
+				col = 1;
+				foreach (string title in headerInfo)
+				{
+					ws.Cells[row, col].Value = rowInfo[col - 1];
+					col++;
+				}
+				row++;
+			}
+
+			ws.Cells[ws.Dimension.Address].AutoFitColumns();
+			return package;
+		}
+
+		protected List<Dictionary<string, Object>> ExcelToDictionary(String excelFileName, bool firstRowTitle = true)
+		{
+			List<Dictionary<string, Object>> results = new List<Dictionary<string, object>>();
+
+			if (!System.IO.File.Exists(excelFileName))
+				return results;
+
+			using (var package = new ExcelPackage(new FileInfo(excelFileName)))
+			{
+				var ws = package.Workbook.Worksheets[0];
+				if (ws == null)
+					return results;
+
+				if (ws.Dimension == null || ws.Dimension.End == null)
+					return results;
+
+				int maxRow = ws.Dimension.End.Row;
+				int maxCol = ws.Dimension.End.Column;
+
+				// prepare header title, make sure there is no duplicate header title
+				int startRow = 1;
+				List<string> title = new List<string>();
+				Dictionary<string, int> headerDuplicateCounter = new Dictionary<string, int>();
+				if (firstRowTitle)
+				{
+					for (int col = 1; col <= maxCol; col++)
+					{
+						var value = ws.Cells[startRow, col].Value;
+						if (value == null) value = "NULL";
+						if (!headerDuplicateCounter.ContainsKey((string)value))
+							headerDuplicateCounter.Add((string)value, 1);
+
+						if (title.Contains((string)value))
+						{
+							title.Add($"{(string)value}{headerDuplicateCounter[(string)value]}");
+							headerDuplicateCounter[(string)value]++;
+						}
+						else
+						{
+							title.Add((string)value);
+						}
+					}
+					startRow = 2;
+				}
+				else
+				{
+					for (int col = 1; col <= maxCol; col++)
+						title.Add(col.ToString());
+				}
+
+				// read all content and add to list results
+				for (int row = startRow; row <= maxRow; row++)
+				{
+					var rowValue = new Dictionary<string, object>();
+					for (int col = 1; col <= maxCol; col++)
+					{
+						var value = ws.Cells[row, col].Value;
+						rowValue.Add(title[col - 1], value);
+					}
+					results.Add(rowValue);
+				}
+			}
+
+			return results;
+		}
 
 		#endregion
 	}
