@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tutorial.Infrastructure.Repositories
 {
-	public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchaseOrderRepository
+	public partial class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchaseOrderRepository
 	{
 		#region appgen: private variable
 		public PurchaseOrderRepository(AppDbContext context) : base(context) { }

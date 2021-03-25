@@ -18,7 +18,7 @@ using System.Transactions;
 
 namespace Tutorial.Infrastructure.Services
 {
-	public class PurchaseOrderDetailService : AsyncBaseService<PurchaseOrderDetail>, IPurchaseOrderDetailService
+	public partial class PurchaseOrderDetailService : AsyncBaseService<PurchaseOrderDetail>, IPurchaseOrderDetailService
 	{
 
 		#region appgen: private variable
@@ -413,65 +413,7 @@ namespace Tutorial.Infrastructure.Services
 		}
 		#endregion
 
-		#region appgen: upload excel
-		public async Task<List<PurchaseOrderDetail>> UploadExcel(string tempExcelFile, CancellationToken cancellationToken = default)
-		{
-			var result = ExcelMapper.ReadFromExcel<PurchaseOrderDetail>(tempExcelFile, "purchaseOrderDetail.json");
-			if (result == null)
-			{
-				AddError("Format template excel tidak dikenali. Silahkan download template dari menu download.");
-				return null;
-			}
-
-			SetUploadDraftFlags(result);
-
-			await RunMasterDataValidation(result, cancellationToken);
-
-			foreach (var item in result)
-			{
-				var id = item.Id;
-				if (id > 0)
-					await _unitOfWork.PurchaseOrderDetailRepository.UpdateAsync(item, cancellationToken);
-				else
-					await _unitOfWork.PurchaseOrderDetailRepository.AddAsync(item, cancellationToken);
-
-			}
-
-			await _unitOfWork.CommitAsync();
-
-			return result;
-		}
-
-		private async Task RunMasterDataValidation(List<PurchaseOrderDetail> result, CancellationToken cancellationToken)
-		{
-			var excelPurchaseOrderIds1 = result.Where(s => s.PurchaseOrderId.HasValue).Select(s => s.PurchaseOrderId.Value).ToList();
-			var PurchaseOrders = await _unitOfWork.PurchaseOrderRepository.ListAsync(new PurchaseOrderFilterSpecification(excelPurchaseOrderIds1), null, cancellationToken);
-			var PurchaseOrderIds = PurchaseOrders.Select(e => e.Id);
-			var excelPartIds1 = result.Where(s => !string.IsNullOrEmpty(s.PartId)).Select(s => s.PartId).ToList();
-			var Parts = await _unitOfWork.PartRepository.ListAsync(new PartFilterSpecification(excelPartIds1), null, cancellationToken);
-			var PartIds = Parts.Select(e => e.Id);
-
-		}
-
-		private void SetUploadDraftFlags(List<PurchaseOrderDetail> result)
-		{
-			foreach (var item in result)
-			{
-				item.isFromUpload = true;
-				item.DraftFromUpload = true;
-				item.IsDraftRecord = (int)BaseEntity.DraftStatus.DraftMode;
-				item.RecordActionDate = DateTime.Now;
-				item.RecordEditedBy = _userName;
-
-				item.isFromUpload = true;
-				item.DraftFromUpload = true;
-				item.IsDraftRecord = (int)BaseEntity.DraftStatus.DraftMode;
-				item.RecordActionDate = DateTime.Now;
-				item.RecordEditedBy = _userName;
-
-			}
-		}
-		#endregion
+		
 
 		#region appgen: commit uploaded excel fiel
 		public async Task<bool> CommitUploadedFile(CancellationToken cancellationToken = default)

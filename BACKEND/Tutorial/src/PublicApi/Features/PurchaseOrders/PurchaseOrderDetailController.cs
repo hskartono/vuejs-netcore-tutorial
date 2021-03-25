@@ -425,9 +425,10 @@ namespace Tutorial.PublicApi.Features.PurchaseOrders
 
 		#region appgen: upload excel file
 		[HttpPost]
-		[Route("upload")]
+		[Route("upload/{id}")]
 		public async Task<ActionResult<IEnumerable<PurchaseOrderDetailDTO>>> UploadAsync(
-			IFormFile file, 
+			IFormFile file,
+			[FromQuery] int id,
 			CancellationToken cancellationToken)
 		{
 			InitUserInfo();
@@ -438,7 +439,7 @@ namespace Tutorial.PublicApi.Features.PurchaseOrders
 				await file.CopyToAsync(stream, cancellationToken);
 			}
 
-			var result = await _purchaseOrderDetailService.UploadExcel(filePath, cancellationToken);
+			var result = await _purchaseOrderDetailService.UploadExcel(filePath, id, cancellationToken);
 			if(result == null)
 			{
 				AssignToModelState(_purchaseOrderDetailService.Errors);

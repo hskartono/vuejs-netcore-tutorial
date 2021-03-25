@@ -49,7 +49,7 @@ namespace Tutorial.ApplicationCore.Services
 			int? id = null, List<int> purchaseOrders = null, List<string> parts = null, List<double> partPrices = null, List<int> qtys = null, List<double> totalPrices = null,
 			Dictionary<string, int> exact = null,
 			CancellationToken cancellationToken = default);
-        Task<List<PurchaseOrderDetail>> UploadExcel(string tempExcelFile, CancellationToken cancellationToken = default);
+        Task<List<PurchaseOrderDetail>> UploadExcel(string tempExcelFile, int parent_id, CancellationToken cancellationToken = default);
         Task<bool> CommitUploadedFile(CancellationToken cancellationToken = default);
         Task<bool> ProcessUploadedFile(IEnumerable<PurchaseOrderDetail> purchaseOrderDetails, CancellationToken cancellationToken = default);
         Task<string> GenerateUploadLogExcel(CancellationToken cancellationToken = default);

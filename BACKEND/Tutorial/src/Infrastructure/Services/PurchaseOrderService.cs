@@ -18,7 +18,7 @@ using System.Transactions;
 
 namespace Tutorial.Infrastructure.Services
 {
-	public class PurchaseOrderService : AsyncBaseService<PurchaseOrder>, IPurchaseOrderService
+	public partial class PurchaseOrderService : AsyncBaseService<PurchaseOrder>, IPurchaseOrderService
 	{
 
 		#region appgen: private variable
@@ -440,56 +440,7 @@ namespace Tutorial.Infrastructure.Services
 		}
 		#endregion
 
-		#region appgen: generate excel process
-		public async Task<string> GenerateExcel(string excelFilename, int? refId = null, 
-			int? id = null, List<string> poNumbers = null, DateTime? poDateFrom = null, DateTime? poDateTo = null, List<string> remarkss = null,
-			Dictionary<string, int> exact = null,
-			CancellationToken cancellationToken = default)
-		{
-			try
-			{
-				PurchaseOrderFilterSpecification filterSpec = null;
-				if (id.HasValue)
-					filterSpec = new PurchaseOrderFilterSpecification(id.Value);
-				else
-					filterSpec = new PurchaseOrderFilterSpecification(exact)
-					{
-
-						Id = id, 
-						PoNumbers = poNumbers, 
-						PoDateFrom = poDateFrom, 
-						PoDateTo = poDateTo, 
-						Remarkss = remarkss
-					}.BuildSpecification();
-
-				var results = await this.ListAsync(filterSpec, null, true, cancellationToken);
-				cancellationToken.ThrowIfCancellationRequested();
-
-				if (ExcelMapper.WriteToExcel<PurchaseOrder>(excelFilename, "purchaseOrder.json", results) == false)
-				{
-					if (refId.HasValue)
-						await _downloadProcessService.FailedToGenerate(refId.Value, "Failed to generate excel file");
-					return "";
-				}
-
-				// update database information (if needed)
-				if (refId.HasValue)
-				{
-					excelFilename = Path.GetFileName(excelFilename);
-					await _downloadProcessService.SuccessfullyGenerated(refId.Value, excelFilename);
-				}
-
-				return excelFilename;
-			}
-			catch (Exception ex)
-			{
-				if (refId.HasValue)
-					await _downloadProcessService.FailedToGenerate(refId.Value, ex.Message);
-
-				throw;
-			}
-		}
-		#endregion
+		
 
 		#region appgen: upload excel
 		public async Task<List<PurchaseOrder>> UploadExcel(string tempExcelFile, CancellationToken cancellationToken = default)
