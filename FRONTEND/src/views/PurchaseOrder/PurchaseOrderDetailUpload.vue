@@ -50,7 +50,7 @@ export default {
 				let data = new FormData();
 				data.append('file', this.fileupload);
 				let _this = this;
-				this.$http.post(process.env.VUE_APP_API_URL + 'purchaseorderdetail/upload',
+				this.$http.post(process.env.VUE_APP_API_URL + 'purchaseorderdetail/upload/' + this.parentId,
 					data,
 					{ headers: { 'Content-Type': 'multipart/form-data' } }
 					).then(async function(response){

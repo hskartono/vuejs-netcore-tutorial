@@ -14,7 +14,7 @@ namespace Tutorial.Infrastructure.Repositories
 		public async Task<DataTable> GetDataTable(List<string> poNumbers, DateTime? poDateFrom, DateTime? poDateTo)
 		{
 			string wherePoNumbers = "";
-			if (poNumbers.Count > 0)
+			if (poNumbers?.Count > 0)
 			{
 				string wherein = "";
 				string separator = ",";

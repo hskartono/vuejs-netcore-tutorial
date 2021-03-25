@@ -52,16 +52,17 @@ namespace Tutorial.Infrastructure.Services
 			}
 
 			// bind informasi excel ke dalam objek PurchaseOrderDetail, termasuk objek part
-			var parent = await _unitOfWork.PurchaseOrderRepository.GetByIdAsync(parent_id, cancellationToken);
+			// var parent = await _unitOfWork.PurchaseOrderRepository.GetByIdAsync(parent_id, cancellationToken);
 			foreach (var row in resultDictionary)
 			{
-				var part = parts.Where(e => e.PartName == row["Part Number"].ToString()).FirstOrDefault();
+				var part = parts.Where(e => e.Id == row["Part Number"].ToString()).FirstOrDefault();
 				double partPrice = (row["Price"] == DBNull.Value) ? 0 : (double)row["Price"];
-				int partQty = (row["Qty"] == DBNull.Value) ? 0 : (int)row["Qty"];
+				int partQty = (row["Qty"] == DBNull.Value) ? 0 : Convert.ToInt32(row["Qty"]);
 				double partTotal = (row["Sub Total"] == DBNull.Value) ? 0 : (double)row["Sub Total"];
-				var poDetail = new PurchaseOrderDetail(part.Id, partPrice, partQty, partTotal, parent)
+				var poDetail = new PurchaseOrderDetail(part.Id, partPrice, partQty, partTotal, null)
 				{
-					Part = part
+					Part = part,
+					PurchaseOrderId = parent_id
 				};
 				result.Add(poDetail);
 			}

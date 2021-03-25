@@ -427,8 +427,8 @@ namespace Tutorial.PublicApi.Features.PurchaseOrders
 		[HttpPost]
 		[Route("upload/{id}")]
 		public async Task<ActionResult<IEnumerable<PurchaseOrderDetailDTO>>> UploadAsync(
+			int id,
 			IFormFile file,
-			[FromQuery] int id,
 			CancellationToken cancellationToken)
 		{
 			InitUserInfo();
